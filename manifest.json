@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+
+  "name": "Gist Embededder",
+  "description": "This extension searches for gist URLs in a page and ",
+  "version": "1.0",
+  "background": {
+      "persistent": true,
+      "scripts": ["background.js"]
+    },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Find Gists!"
+  },
+  "permissions": [
+    "activeTab",
+    "*://*.github.com/"
+  ]
+}
