@@ -3,39 +3,46 @@
 var links = document.getElementsByTagName('a');
 
 for(var i = 0; i < links.length; i++) {
+  (function(i){ // This weird syntax is needed to get the XMLHttpRequests to work properly
+    var xhr = []
+    if(links[i].hostname == "gist.github.com") {
 
-  console.log("Hostname: " + links[i].hostname);
-  if(links[i].hostname == "gist.github.com") {
+      var url = links[i].href + '.json';
+      links[i].innerHTML = url;
+      links[i].id = "gister_"+i;
+      
+      // Youtube fix
+      links[i].parentElement.style.maxHeight =  "initial";
 
-    links[i].id = links[i].id + "gister";
+      xhr[i] = new XMLHttpRequest();
+      xhr[i].open("GET", url, true);
+      xhr[i].addEventListener("load", function() {
+        if (xhr[i].readyState == 4 && xhr[i].status == 200) {
+          var resp = JSON.parse(xhr[i].responseText);
+          //console.log(xhr[i].responseText);
 
-    var url = links[i].href + '.json';
+          var link = document.createElement("link");
+          var head = document.head;
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
+          link.type = 'text/css';
+          link.rel = 'stylesheet';
+          link.href = resp.stylesheet;
 
-        var resp = JSON.parse(xhr.responseText);
+          head.appendChild(link)
 
-        var link = document.createElement("link");
-        var head = document.head;
+          var gist = document.createElement('div');
 
-        link.type = 'text/css';
-        link.rel = 'stylesheet';
-        link.href = resp.stylesheet;
+          gist.innerHTML = resp.div;
 
-        head.appendChild(link)
+          // YouTube fix
+          gist.style = "white-space: normal !important;"
 
-        var gist = document.createElement('div');
-        gist.innerHTML = resp.div;
-
-        var toSwitch = document.getElementById("gister");
-        console.log(toSwitch);
-        toSwitch.parentNode.insertBefore(gist, toSwitch);
-        toSwitch.parentNode.removeChild(toSwitch);
-      }
-    };
-    xhr.send();
-  }
+          var toSwitch = document.getElementById("gister_"+i);
+          toSwitch.parentNode.insertBefore(gist, toSwitch);
+          toSwitch.parentNode.removeChild(toSwitch);
+        }
+      });
+      xhr[i].send();
+    }
+  })(i);
 }
