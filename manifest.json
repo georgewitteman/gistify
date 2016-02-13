@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Gist Embededder",
-  "description": "This extension searches for gist URLs in a page and ",
+  "name": "Gistify",
+  "description": "This extension searches for gist URLs in a page and embeds their linked code.",
   "version": "1.0",
   "background": {
       "persistent": true,
