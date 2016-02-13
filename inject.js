@@ -47,7 +47,7 @@ for(var i = 0; i < links.length; i++) {
 
           // YouTube fix (The default white-space makes the gist have
           // too much padding)
-          gist.style = "white-space: normal !important;"
+          gist.style.whiteSpace = "normal";
 
           // Get the corresponding link
           var toSwitch = document.getElementById("gister_"+i);
